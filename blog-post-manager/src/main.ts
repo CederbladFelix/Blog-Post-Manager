@@ -25,7 +25,6 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
     </form>
   </div>
   <div id="blogposts">
-
   </div>
 `;
 
@@ -35,13 +34,45 @@ const postsContainer = document.querySelector<HTMLDivElement>("#blogposts")!;
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  const formdata = new FormData(form);
+  const formData = new FormData(form);
 
-  const title = formdata.get("title") as string;
-  const body = formdata.get("body") as string;
-  const author = formdata.get("author") as string;
+  const title = formData.get("title") as string;
+  const body = formData.get("body") as string;
+  const author = formData.get("author") as string;
 
   const post = createBlogPost(title, body, author);
   posts.unshift(post);
-  console.log(posts);
+  render(posts);
 });
+
+function createPostElement(post: BlogPost): HTMLElement {
+  const article = document.createElement("article");
+  article.className = "post";
+
+  const title = document.createElement("h3");
+  title.textContent = post.title;
+
+  const metaData = document.createElement("p");
+  metaData.textContent = `By: ${
+    post.author
+  } Posted: ${post.createdAt.toLocaleString()}`;
+
+  const body = document.createElement("p");
+  body.textContent = post.body;
+
+  article.append(title, metaData, body);
+  return article;
+}
+
+function render(list: BlogPost[]) {
+  postsContainer.innerHTML = "";
+  if (list.length === 0) {
+    const empty = document.createElement("p");
+    empty.textContent = "No posts yet.";
+    postsContainer.append(empty);
+    return;
+  }
+  for (const p of list) {
+    postsContainer.append(createPostElement(p));
+  }
+}
