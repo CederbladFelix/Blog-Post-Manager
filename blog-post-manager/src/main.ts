@@ -43,6 +43,9 @@ form.addEventListener("submit", (event) => {
   const post = createBlogPost(title, body, author);
   posts.unshift(post);
   render(posts);
+
+  form.reset();
+  form.querySelector<HTMLInputElement>('input[name="title"]')!?.focus();
 });
 
 function createPostElement(post: BlogPost): HTMLElement {
@@ -64,15 +67,17 @@ function createPostElement(post: BlogPost): HTMLElement {
   return article;
 }
 
-function render(list: BlogPost[]) {
+function render(postList: BlogPost[]) {
   postsContainer.innerHTML = "";
-  if (list.length === 0) {
+  if (postList.length === 0) {
     const empty = document.createElement("p");
-    empty.textContent = "No posts yet.";
+    empty.textContent = "No posts yet";
     postsContainer.append(empty);
     return;
   }
-  for (const p of list) {
-    postsContainer.append(createPostElement(p));
+  for (const post of postList) {
+    postsContainer.append(createPostElement(post));
   }
 }
+
+render(posts);
