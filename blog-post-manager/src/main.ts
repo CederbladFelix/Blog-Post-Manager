@@ -8,15 +8,15 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div class="form-container">
     <form class="form">
       <div class="row">
-        <label>Title</label>
+        <label for="title">Title</label>
         <input type="text" name="title"></input>
       </div>
       <div class="row">
-        <label>Body</label>
+        <label for="body">Body</label>
         <textarea name="body"></textarea>
       </div>
       <div class="row">
-        <label>Author</label>
+        <label for="author">Author</label>
         <input type="text" name="author"></input>
       </div>
       <div>
@@ -36,16 +36,21 @@ form.addEventListener("submit", (event) => {
 
   const formData = new FormData(form);
 
-  const title = formData.get("title") as string;
-  const body = formData.get("body") as string;
-  const author = formData.get("author") as string;
+  const title = (formData.get("title") as string).trim();
+  const body = (formData.get("body") as string).trim();
+  const author = (formData.get("author") as string).trim();
+
+  if (!title || !body || !author) {
+    alert("All fields are required.");
+    return;
+  }
 
   const post: BlogPost = createBlogPost(title, body, author);
   posts.unshift(post);
   render(posts);
 
   form.reset();
-  form.querySelector<HTMLInputElement>('input[name="title"]')!?.focus();
+  form.querySelector<HTMLInputElement>('input[name="title"]')?.focus();
 });
 
 function createPostElement(post: BlogPost): HTMLElement {
