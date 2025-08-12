@@ -40,7 +40,7 @@ form.addEventListener("submit", (event) => {
   const body = formData.get("body") as string;
   const author = formData.get("author") as string;
 
-  const post = createBlogPost(title, body, author);
+  const post: BlogPost = createBlogPost(title, body, author);
   posts.unshift(post);
   render(posts);
 

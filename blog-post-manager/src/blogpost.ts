@@ -6,7 +6,7 @@ export interface BlogPost {
   createdAt: Date;
 }
 
-let nextId = 1;
+let nextId: number = 1;
 
 export function createBlogPost(
   title: string,
