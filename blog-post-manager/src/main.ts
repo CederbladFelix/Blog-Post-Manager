@@ -65,10 +65,51 @@ postsContainer.addEventListener("click", (event) => {
     if (index !== -1) {
       posts.splice(index, 1);
     }
-
     render(posts);
   }
+
+  if (target.closest(".edit")) {
+    const index = posts.findIndex((post) => post.id === article.id);
+    if (index === -1) return;
+
+    const postIsBeingEdited = !!article.querySelector("textarea");
+
+    if (postIsBeingEdited) {
+      returnFromEditMode(posts[index], article);
+    } else {
+      enterEditMode(article);
+    }
+  }
 });
+
+function enterEditMode(article: HTMLElement) {
+  const p = article.querySelector<HTMLParagraphElement>(".body")!;
+  const textArea = document.createElement("textarea");
+  textArea.value = p.textContent;
+  textArea.name = "body";
+  textArea.className = p.className;
+
+  article.replaceChild(textArea, p);
+
+  const editButton = article.querySelector<HTMLButtonElement>(".edit")!;
+  editButton.textContent = "✅";
+}
+
+function returnFromEditMode(post: BlogPost, article: HTMLElement) {
+  const textarea = article.querySelector<HTMLTextAreaElement>("textarea");
+  if (!textarea) return;
+
+  post.body = textarea.value;
+
+  const p = document.createElement("p");
+  p.textContent = textarea.value;
+  p.className = textarea.className;
+
+  article.replaceChild(p, textarea);
+
+  const editButton = article.querySelector<HTMLButtonElement>(".edit")!;
+  editButton.textContent = "✏️";
+}
 
 function createPostElement(post: BlogPost): HTMLElement {
   const article = document.createElement("article");
@@ -79,31 +120,43 @@ function createPostElement(post: BlogPost): HTMLElement {
   title.textContent = post.title;
 
   const metaData = document.createElement("p");
-  metaData.textContent = `By: ${
-    post.author
-  } Posted: ${post.createdAt.toLocaleString()}`;
+  metaData.className = "meta";
+  metaData.textContent = `${post.author} ${post.createdAt.toLocaleString()}`;
 
   const body = document.createElement("p");
+  body.className = "body";
   body.textContent = post.body;
+
+  const buttonContainer = document.createElement("div");
+  buttonContainer.className = "button-container";
+
+  const editButton = document.createElement("button");
+  editButton.className = "edit";
+  editButton.type = "button";
+  editButton.textContent = "✏️";
 
   const trashButton = document.createElement("button");
   trashButton.className = "delete";
   trashButton.type = "button";
   trashButton.textContent = "🗑️";
 
-  article.append(title, metaData, body, trashButton);
+  buttonContainer.append(editButton, trashButton);
+
+  article.append(title, metaData, body, buttonContainer);
   return article;
 }
 
-function render(postList: BlogPost[]) {
+function editPostElement() {}
+
+function render(posts: BlogPost[]) {
   postsContainer.innerHTML = "";
-  if (postList.length === 0) {
+  if (posts.length === 0) {
     const empty = document.createElement("p");
     empty.textContent = "No posts yet";
     postsContainer.append(empty);
     return;
   }
-  for (const post of postList) {
+  for (const post of posts) {
     postsContainer.append(createPostElement(post));
   }
 }

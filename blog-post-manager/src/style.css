@@ -1,7 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   font-family: "Open Sans", sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  --border-radius: 0.5rem;
+  --element-color: #424242;
 
   color-scheme: dark;
   color: rgba(255, 255, 255, 0.87);
@@ -32,9 +39,9 @@ textarea {
 }
 
 form {
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   padding: 2rem;
-  background-color: #424242;
+  background-color: var(--element-color);
   width: 25%;
   display: flex;
   flex-direction: column;
@@ -51,7 +58,7 @@ input {
   box-sizing: border-box;
 }
 
-textarea {
+.form textarea {
   resize: none;
   width: 12rem;
   height: 12rem;
@@ -61,7 +68,7 @@ textarea {
 .submit {
   width: 6rem;
   height: 2rem;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 }
 
 #blogposts {
@@ -69,20 +76,43 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .post {
-  background-color: #424242;
+  background-color: var(--element-color);
   width: 50%;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
-.post p {
+.meta {
+  font-weight: 300;
+  font-size: small;
+}
+
+p.body {
+  max-width: 90%;
   overflow-wrap: break-word;
-  padding-inline: 2rem;
 }
 
-.delete {
+.post textarea {
+  resize: none;
+  width: 18rem;
+  height: 8rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.delete,
+.edit {
   cursor: pointer;
 }
