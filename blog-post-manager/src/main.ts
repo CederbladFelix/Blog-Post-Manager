@@ -75,7 +75,7 @@ postsContainer.addEventListener("click", (event) => {
     const postIsBeingEdited = !!article.querySelector("textarea");
 
     if (postIsBeingEdited) {
-      returnFromEditMode(posts[index], article);
+      exitEditMode(posts[index], article);
     } else {
       enterEditMode(article);
     }
@@ -95,7 +95,7 @@ function enterEditMode(article: HTMLElement) {
   editButton.textContent = "✅";
 }
 
-function returnFromEditMode(post: BlogPost, article: HTMLElement) {
+function exitEditMode(post: BlogPost, article: HTMLElement) {
   const textarea = article.querySelector<HTMLTextAreaElement>("textarea");
   if (!textarea) return;
 
