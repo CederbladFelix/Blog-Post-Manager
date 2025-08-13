@@ -1,5 +1,5 @@
 export interface BlogPost {
-  id: number;
+  id: string;
   title: string;
   body: string;
   author: string;
@@ -14,7 +14,7 @@ export function createBlogPost(
   author: string
 ): BlogPost {
   return {
-    id: nextId++,
+    id: (nextId++).toString(),
     title,
     body,
     author,

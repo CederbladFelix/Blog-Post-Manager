@@ -53,9 +53,27 @@ form.addEventListener("submit", (event) => {
   form.querySelector<HTMLInputElement>('input[name="title"]')?.focus();
 });
 
+postsContainer.addEventListener("click", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLElement)) return;
+
+  const article = target.closest<HTMLElement>("article");
+  if (!article) return;
+
+  if (target.closest(".delete")) {
+    const index = posts.findIndex((post) => post.id === article.id);
+    if (index !== -1) {
+      posts.splice(index, 1);
+    }
+
+    render(posts);
+  }
+});
+
 function createPostElement(post: BlogPost): HTMLElement {
   const article = document.createElement("article");
   article.className = "post";
+  article.id = post.id;
 
   const title = document.createElement("h3");
   title.textContent = post.title;
@@ -68,7 +86,12 @@ function createPostElement(post: BlogPost): HTMLElement {
   const body = document.createElement("p");
   body.textContent = post.body;
 
-  article.append(title, metaData, body);
+  const trashButton = document.createElement("button");
+  trashButton.className = "delete";
+  trashButton.type = "button";
+  trashButton.textContent = "🗑️";
+
+  article.append(title, metaData, body, trashButton);
   return article;
 }
 
