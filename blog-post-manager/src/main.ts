@@ -146,8 +146,6 @@ function createPostElement(post: BlogPost): HTMLElement {
   return article;
 }
 
-function editPostElement() {}
-
 function render(posts: BlogPost[]) {
   postsContainer.innerHTML = "";
   if (posts.length === 0) {
