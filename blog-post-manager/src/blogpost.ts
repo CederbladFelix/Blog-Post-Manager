@@ -6,7 +6,8 @@ export interface BlogPost {
   createdAt: Date;
 }
 
-let nextId: number = Number(localStorage.getItem("nextId") || "1");
+const idStorageKey = "nextId";
+let nextId: number = Number(localStorage.getItem(idStorageKey) || "1");
 
 export function createBlogPost(
   title: string,
@@ -21,7 +22,7 @@ export function createBlogPost(
     createdAt: new Date(),
   };
 
-  localStorage.setItem("nextId", String(nextId));
+  localStorage.setItem(idStorageKey, String(nextId));
 
   return post;
 }
