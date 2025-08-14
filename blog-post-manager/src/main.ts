@@ -3,6 +3,7 @@ import type { BlogPost } from "./blogpost";
 import { createBlogPost } from "./blogpost";
 
 const posts: BlogPost[] = [];
+const STORAGE_KEY: string = "blogposts";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div class="form-container">
@@ -47,6 +48,7 @@ form.addEventListener("submit", (event) => {
 
   const post: BlogPost = createBlogPost(title, body, author);
   posts.unshift(post);
+  savePosts(posts);
   render(posts);
 
   form.reset();
@@ -64,6 +66,7 @@ postsContainer.addEventListener("click", (event) => {
     const index = posts.findIndex((post) => post.id === article.id);
     if (index !== -1) {
       posts.splice(index, 1);
+      savePosts(posts);
     }
     render(posts);
   }
@@ -81,6 +84,26 @@ postsContainer.addEventListener("click", (event) => {
     }
   }
 });
+
+function savePosts(posts: BlogPost[]) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+}
+
+function getStoragePosts(): BlogPost[] {
+  try {
+    const rawJSONString = localStorage.getItem(STORAGE_KEY);
+    if (!rawJSONString) return [];
+
+    const blogPostArrayDateAsString = JSON.parse(rawJSONString) as Array<
+      Omit<BlogPost, "createdAt"> & { createdAt: string }
+    >;
+    return blogPostArrayDateAsString
+      .map((p) => ({ ...p, createdAt: new Date(p.createdAt) }))
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  } catch {
+    return [];
+  }
+}
 
 function enterEditMode(article: HTMLElement) {
   const p = article.querySelector<HTMLParagraphElement>(".body")!;
@@ -100,6 +123,7 @@ function exitEditMode(post: BlogPost, article: HTMLElement) {
   if (!textarea) return;
 
   post.body = textarea.value;
+  savePosts(posts);
 
   const p = document.createElement("p");
   p.textContent = textarea.value;
@@ -159,4 +183,5 @@ function render(posts: BlogPost[]) {
   }
 }
 
+posts.push(...getStoragePosts());
 render(posts);
