@@ -3,7 +3,7 @@ import type { BlogPost } from "./blogpost";
 import { createBlogPost } from "./blogpost";
 
 const posts: BlogPost[] = [];
-const STORAGE_KEY: string = "blogposts";
+const postsStorageKey: string = "blogposts";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div class="form-container">
@@ -86,12 +86,12 @@ postsContainer.addEventListener("click", (event) => {
 });
 
 function savePosts(posts: BlogPost[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+  localStorage.setItem(postsStorageKey, JSON.stringify(posts));
 }
 
 function getStoragePosts(): BlogPost[] {
   try {
-    const rawJSONString = localStorage.getItem(STORAGE_KEY);
+    const rawJSONString = localStorage.getItem(postsStorageKey);
     if (!rawJSONString) return [];
 
     const blogPostArrayDateAsString = JSON.parse(rawJSONString) as Array<
