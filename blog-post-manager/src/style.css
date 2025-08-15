@@ -33,6 +33,19 @@ textarea {
   text-align: center;
 }
 
+header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  background-color: var(--element-color);
+  border-radius: var(--border-radius);
+  width: 25%;
+  padding: 1rem 2rem;
+}
+
 .form-container {
   display: flex;
   justify-content: center;
@@ -41,6 +54,7 @@ textarea {
 form {
   border-radius: var(--border-radius);
   padding: 2rem;
+  padding-top: 1rem;
   background-color: var(--element-color);
   width: 25%;
   display: flex;

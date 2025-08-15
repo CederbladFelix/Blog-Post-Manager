@@ -6,27 +6,35 @@ const posts: BlogPost[] = [];
 const postsStorageKey: string = "blogposts";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
-  <div class="form-container">
-    <form class="form">
-      <div class="row">
-        <label for="title">Title</label>
-        <input type="text" name="title"></input>
-      </div>
-      <div class="row">
-        <label for="body">Body</label>
-        <textarea name="body"></textarea>
-      </div>
-      <div class="row">
-        <label for="author">Author</label>
-        <input type="text" name="author"></input>
-      </div>
-      <div>
-        <button type="submit" class="submit">Submit</button>
-      </div>
-    </form>
-  </div>
-  <div id="blogposts">
-  </div>
+
+  <header>
+    <h1>Blog</h1>
+  </header>
+  <main>
+    <div class="form-container">
+      <form class="form">
+        <h2>Post</h2>
+        <div class="row">
+          <label for="title">Title</label>
+          <input type="text" name="title"></input>
+        </div>
+        <div class="row">
+          <label for="body">Body</label>
+          <textarea name="body"></textarea>
+        </div>
+        <div class="row">
+          <label for="author">Author</label>
+          <input type="text" name="author"></input>
+        </div>
+        <div>
+          <button type="submit" class="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+    <div id="blogposts">
+    </div>
+  </main>
+
 `;
 
 const form = document.querySelector<HTMLFormElement>(".form")!;
