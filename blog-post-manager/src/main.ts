@@ -13,7 +13,7 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <main>
     <div class="form-container">
       <form class="form">
-        <h2>Post</h2>
+        <h2>Create Post</h2>
         <div class="row">
           <label for="title">Title</label>
           <input type="text" name="title"></input>
