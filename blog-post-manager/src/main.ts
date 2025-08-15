@@ -100,7 +100,8 @@ function getStoragePosts(): BlogPost[] {
     return blogPostArrayDateAsString
       .map((p) => ({ ...p, createdAt: new Date(p.createdAt) }))
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-  } catch {
+  } catch (error) {
+    console.log("Error: " + error);
     return [];
   }
 }
